@@ -10,8 +10,10 @@
   --accent: #3b49df;
   --accent-soft: #eceeff;
 
-  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  /* The 'Variable' families are the self-hosted files imported in BaseLayout; the
+     plain names catch a locally installed copy before falling back to the stack. */
+  --font-sans: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   --radius: 10px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);

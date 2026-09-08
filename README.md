@@ -2,8 +2,8 @@
 
 Site for OddlyBuilt — a one-person development studio.
 
-One page, static output, no database and no server. Astro 7 with plain CSS; the
-only third-party thing at runtime is the Google Fonts stylesheet.
+One page, static output, no database and no server. Astro 7 with plain CSS, and
+no third-party requests at runtime at all — the fonts are self-hosted.
 
 ```bash
 npm install
@@ -51,6 +51,22 @@ canonical and `og:` tags read from it.
 One thing Pages cannot do is send custom response headers, so the long-lived
 cache policy on `/_astro/*` assets is gone. Astro fingerprints those filenames
 anyway, and Pages sets its own reasonable defaults.
+
+## Fonts
+
+Inter and JetBrains Mono are self-hosted through `@fontsource-variable/*`,
+imported in `BaseLayout.astro`. Previously they came from the Google Fonts CDN,
+which cost a connection to a third-party origin and blocked render on it.
+
+The `wght.css` entrypoint declares one `@font-face` per subset with a
+`unicode-range`, so the build emits every subset (312 KB total) but a Latin page
+downloads only two files, 87 KB. Astro fingerprints them, and they are variable
+fonts, so the whole 100–900 weight range costs one file each rather than one per
+weight.
+
+The `--font-sans` and `--font-mono` stacks in `global.css` name
+`'Inter Variable'` first — that is the family the self-hosted files declare, and
+the plain `'Inter'` after it catches a locally installed copy.
 
 ## SEO
 

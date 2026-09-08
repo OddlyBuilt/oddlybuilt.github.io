@@ -1,4 +1,9 @@
 ---
+// Self-hosted so the page makes no third-party request and nothing blocks render
+// on a connection to fonts.googleapis.com. `wght.css` declares one @font-face per
+// subset with a unicode-range, so a Latin page downloads only the Latin slice.
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
 import '../styles/global.css';
 import { site } from '../content';
 
@@ -67,12 +72,6 @@ const schema = {
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
   </head>
 
   <body>
