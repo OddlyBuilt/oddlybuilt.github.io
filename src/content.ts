@@ -6,10 +6,18 @@
 export const site = {
   name: 'OddlyBuilt',
   tagline: 'Websites and tools, built properly.',
+  /**
+   * What someone would actually type into a search box. Used in <title> and in
+   * the structured data, where the tagline would say nothing a crawler can use.
+   */
+  role: 'Freelance web developer',
   /** Where enquiries land. The contact form opens a draft addressed here. */
   email: 'hello@oddlybuilt.net',
   github: 'https://github.com/OddlyBuilt',
+  /** Display string. `city` and `country` are the machine-readable split. */
   location: 'Bangalore, India',
+  city: 'Bangalore',
+  country: 'IN',
 };
 
 export interface Project {

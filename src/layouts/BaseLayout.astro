@@ -7,13 +7,36 @@ interface Props {
   description?: string;
 }
 const {
-  title = `${site.name} — ${site.tagline}`,
-  description = 'OddlyBuilt builds fast, low-maintenance websites and small tools. Based in Bangalore, working with clients anywhere.',
+  // The tagline is the h1's job. The title says what someone searches for, and
+  // leads with the brand so it still reads as one in a SERP.
+  title = `${site.name} — ${site.role} in ${site.city}`,
+  // Keep this under ~155 characters or Google clips the last clause.
+  description = `${site.role} in ${site.city}, building fast, low-maintenance websites and small tools for clients anywhere. Static-first, no CMS to maintain.`,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
 // Absolute, because scrapers do not resolve relative image URLs.
 const ogImage = new URL('/og.png', Astro.site ?? Astro.url).href;
+
+// Structured data. Deliberately claims nothing the page does not: no ratings,
+// no invented opening hours, no price range.
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: site.name,
+  description,
+  url: new URL('/', Astro.site ?? Astro.url).href,
+  image: ogImage,
+  logo: new URL('/favicon.png', Astro.site ?? Astro.url).href,
+  email: site.email,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: site.city,
+    addressCountry: site.country,
+  },
+  areaServed: { '@type': 'Place', name: 'Worldwide' },
+  sameAs: [site.github],
+};
 ---
 
 <!doctype html>
@@ -30,12 +53,16 @@ const ogImage = new URL('/og.png', Astro.site ?? Astro.url).href;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="en_IN" />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={`${site.name} logo`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage} />
+
+    <meta name="theme-color" content="#f4f3ef" />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
 
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
