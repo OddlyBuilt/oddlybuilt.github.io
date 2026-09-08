@@ -1,0 +1,65 @@
+# OddlyBuilt
+
+Site for OddlyBuilt — a one-person development studio.
+
+One page, static output, no database and no server. Astro 7 with plain CSS; the
+only third-party thing at runtime is the Google Fonts stylesheet.
+
+```bash
+npm install
+npm run dev       # http://localhost:4321
+npm run build     # -> dist/
+npm run preview   # serve dist/ locally
+```
+
+## Contact address
+
+`site.email` is `hello@oddlybuilt.net`. It is used three times — the form's
+draft, the contact block and the footer — so it is set once in `src/content.ts`.
+
+The mailbox lives on the Namecheap hosting account that already serves the
+domain's MX records, so there is no separate mail provider to manage.
+
+There is deliberately no booking link. If you add Calendly later, put the URL in
+`site` and wire it to a button in the hero and the contact block.
+
+## The contact form
+
+There is no backend. GitHub Pages serves static files and nothing else, so the
+form composes an email instead of posting anywhere: the inline script in
+`src/pages/index.astro` builds a `mailto:` URL from the fields and hands it to the
+mail client. With JavaScript off, the form's `action` still opens a mail client,
+only without the fields filled in.
+
+What that costs: submissions depend on the visitor having a working mail app, and
+you get no stored record of them beyond your inbox. If that becomes a problem,
+point the form at a hosted endpoint — Formspree or Basin both work as a drop-in
+`action` with no other changes to the markup.
+
+## Deploying
+
+`.github/workflows/deploy.yml` builds on every push to `main` and publishes
+`dist/` to Pages via `actions/deploy-pages`. Pull requests run the same build as
+a check but do not deploy; Pages has no per-branch previews.
+
+The repo is named `oddlybuilt.github.io`, so the site serves from the root of
+<https://oddlybuilt.github.io/> and `astro.config.mjs` needs no `base`. Renaming
+the repo would move it to a subpath and require one. For a custom domain later,
+set it under *Settings → Pages* and update `site` in the Astro config to match —
+canonical and `og:` tags read from it.
+
+One thing Pages cannot do is send custom response headers, so the long-lived
+cache policy on `/_astro/*` assets is gone. Astro fingerprints those filenames
+anyway, and Pages sets its own reasonable defaults.
+
+## Editing content
+
+Copy lives in `src/content.ts`, not in the markup: the projects list, the three
+service blurbs, and the how-I-work points. Add a project by appending to
+`projects` — give it `href` if there is something public to link to, or `status`
+(e.g. `'In progress'`) if there is not.
+
+## Why `.npmrc`
+
+Pins the public npm registry. Without it, installs on a machine configured
+against a corporate mirror bake internal hostnames into `package-lock.json`.
