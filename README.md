@@ -42,11 +42,36 @@ point the form at a hosted endpoint — Formspree or Basin both work as a drop-i
 `dist/` to Pages via `actions/deploy-pages`. Pull requests run the same build as
 a check but do not deploy; Pages has no per-branch previews.
 
-The repo is named `oddlybuilt.github.io`, so the site serves from the root of
-<https://oddlybuilt.github.io/> and `astro.config.mjs` needs no `base`. Renaming
-the repo would move it to a subpath and require one. For a custom domain later,
-set it under *Settings → Pages* and update `site` in the Astro config to match —
-canonical and `og:` tags read from it.
+The site lives at <https://oddlybuilt.net>. Pages 301s the old
+`oddlybuilt.github.io` URLs to it, so nothing that already linked to the site
+breaks. The repo name means Pages serves from the root either way, so
+`astro.config.mjs` needs no `base` — renaming the repo would move it to a subpath
+and require one.
+
+The domain is held in three places, and all three have to agree:
+
+- **`public/CNAME`** — in `public/`, not the repo root, on purpose. Pages' UI
+  normally writes this file for you, but this repo deploys with
+  `actions/deploy-pages`, which replaces the published site with `dist/` on every
+  push. A `CNAME` that is not part of the build gets dropped, and the domain
+  quietly detaches.
+- **`site` in `astro.config.mjs`** — canonical tags, `og:` tags and the sitemap
+  are built from it. Leave it on the old address and the site advertises URLs that
+  redirect, which splits it across two addresses.
+- **Settings → Pages → Custom domain**, with *Enforce HTTPS* ticked once the
+  certificate is issued.
+
+DNS at the registrar is four `A` records for the apex (`185.199.108.153`,
+`.109.153`, `.110.153`, `.111.153`), the matching `AAAA` records for IPv6, and a
+`CNAME` on `www` pointing at `oddlybuilt.github.io`. An `ALIAS`/`ANAME` on the
+apex is better than the `A` records if the registrar supports one, since GitHub
+can change those IPs.
+
+**Do not remove the `MX` records** while doing any of this. They point at the
+Namecheap mailbox behind `hello@oddlybuilt.net` (see *Contact address* above),
+which the site publishes in three places. Website records and mail records are
+independent — Pages needs nothing from `MX`, and a setup wizard that asks you to
+clear them is configuring email, not hosting.
 
 One thing Pages cannot do is send custom response headers, so the long-lived
 cache policy on `/_astro/*` assets is gone. Astro fingerprints those filenames
