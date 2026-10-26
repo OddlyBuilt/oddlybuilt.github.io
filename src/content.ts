@@ -33,6 +33,14 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    name: 'BodVod',
+    blurb: 'Workout tracker for iPhone that plans the next session.',
+    detail:
+      'It picks what to train from what you have recovered from — per-muscle, systemic and joint fatigue tracked separately — and explains every exercise and weight it suggests. No account, no server, no subscription: the log stays on the phone, with encrypted backups you hold yourself.',
+    stack: ['Swift', 'SwiftUI', 'SQLite', 'iOS'],
+    status: 'In progress',
+  },
+  {
     name: 'FancyPaws',
     blurb: 'Storefront for a Delhi NCR puppy business.',
     detail:
