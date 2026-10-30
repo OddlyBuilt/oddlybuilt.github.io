@@ -12,7 +12,7 @@ export const site = {
    */
   role: 'Freelance web developer',
   /** Where enquiries land. The contact form opens a draft addressed here. */
-  email: 'hello@oddlybuilt.net',
+  email: 'mohdtalha@oddlybuilt.net',
   github: 'https://github.com/OddlyBuilt',
   /** Display string. `city` and `country` are the machine-readable split. */
   location: 'Bangalore, India',

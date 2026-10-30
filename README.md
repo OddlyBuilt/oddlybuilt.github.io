@@ -14,7 +14,7 @@ npm run preview   # serve dist/ locally
 
 ## Contact address
 
-`site.email` is `hello@oddlybuilt.net`. It is used three times — the form's
+`site.email` is `mohdtalha@oddlybuilt.net`. It is used three times — the form's
 draft, the contact block and the footer — so it is set once in `src/content.ts`.
 
 The mailbox lives on the Namecheap hosting account that already serves the
@@ -68,7 +68,7 @@ apex is better than the `A` records if the registrar supports one, since GitHub
 can change those IPs.
 
 **Do not remove the `MX` records** while doing any of this. They point at the
-Namecheap mailbox behind `hello@oddlybuilt.net` (see *Contact address* above),
+Namecheap mailbox behind `mohdtalha@oddlybuilt.net` (see *Contact address* above),
 which the site publishes in three places. Website records and mail records are
 independent — Pages needs nothing from `MX`, and a setup wizard that asks you to
 clear them is configuring email, not hosting.
